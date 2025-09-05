@@ -74,18 +74,15 @@ if (typeof Typed !== 'undefined') {
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-
         const submitBtn = form.querySelector('input[type="submit"], button[type="submit"]');
         submitBtn && (submitBtn.disabled = true);
 
-        // status element (create if missing)
         let status = document.getElementById('form-status');
         if (!status) {
             status = document.createElement('div');
             status.id = 'form-status';
             status.style.marginTop = '12px';
             status.style.color = '#fff';
-            // tweak styling if you want: status.style.fontSize = '14px';
             form.appendChild(status);
         }
         status.textContent = 'Sending…';
@@ -94,21 +91,19 @@ if (typeof Typed !== 'undefined') {
             const res = await fetch(form.action, {
                 method: (form.method || 'POST').toUpperCase(),
                 body: new FormData(form),
+                headers: { 'Accept': 'application/json' } // <-- tells Formspree to return JSON (no redirect)
             });
 
             if (res.ok) {
-                // clear form UI if you want
                 form.reset();
-                // force redirect to your thank-you page (use your custom domain)
                 window.location.href = 'https://vibhupratap.me/thank-you.html';
                 return;
             }
 
-            // non-OK handling
-            let data = null;
-            try { data = await res.json(); } catch (err) { /* ignore parse errors */ }
-            status.textContent = (data && data.error) ? data.error : 'Submission failed. Try again later.';
+            const data = await res.json().catch(() => null);
+            status.textContent = data?.error || 'Submission failed. Try again later.';
         } catch (err) {
+            console.error('Fetch/network error:', err);
             status.textContent = 'Network error — please try again.';
         } finally {
             submitBtn && (submitBtn.disabled = false);
