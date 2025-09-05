@@ -2,10 +2,11 @@
 let menuIcon = document.querySelector('#menu-icon');
 let navbar = document.querySelector('.navbar');
 
-menuIcon.onclick = () => {
+menuIcon && (menuIcon.onclick = () => {
     menuIcon.classList.toggle('bx-x');
     navbar.classList.toggle('active');
-};
+});
+
 /*========================================== Scroll Section Active Links ====================================*/
 let sections = document.querySelectorAll('section');
 let navLinks = document.querySelectorAll('header nav a');
@@ -20,41 +21,98 @@ window.onscroll = () => {
         if (top >= offset && top < offset + height) {
             navLinks.forEach(links => {
                 links.classList.remove('active');
-                document.querySelector('header nav a[href*="#' + id + '"]').classList.add('active');
             });
-        };
+            const activeLink = document.querySelector('header nav a[href*="#' + id + '"]');
+            activeLink && activeLink.classList.add('active');
+        }
     });
+
     /*========================================== Sticky Navbar ====================================*/
     let header = document.querySelector('header');
-    header.classList.toggle('sticky', window.scrollY > 100);
+    header && header.classList.toggle('sticky', window.scrollY > 100);
 
     /*================================== Remove Toggle Icon and Navbar when click navbar link (scroll) ====================================*/
-    menuIcon.classList.remove('bx-x');
-    navbar.classList.remove('active');
+    menuIcon && menuIcon.classList.remove('bx-x');
+    navbar && navbar.classList.remove('active');
 };
-/*================================== scroll revel ====================================*/
-ScrollReveal({
-    reset: true,
-    distance: '80px',
-    duration: 2000,
-    delay: 200
-});
-ScrollReveal().reveal('.home-content, .heading', { origin: 'top' });
-ScrollReveal().reveal('.home-img, .services-container, .portfolio-box, .contact form', { origin: 'bottom' });
-ScrollReveal().reveal('.home-content h1, .about-img', { origin: 'left' });
-ScrollReveal().reveal('.home-content p, .about-content', { origin: 'right' });
 
-/*================================== typed js ====================================*/
-const typed = new Typed('.multiple-text', {
-    strings: ['FrontEnd Developer', 'AIML Enginner', 'Blogger'],
-    typeSpeed: 100,
-    backSpeed: 100,
-    backDelay: 1000,
-    loop: true
-});
+/*================================== ScrollReveal (guarded if lib present) ====================================*/
+if (typeof ScrollReveal !== 'undefined') {
+    ScrollReveal({
+        reset: true,
+        distance: '80px',
+        duration: 2000,
+        delay: 200
+    });
+    ScrollReveal().reveal('.home-content, .heading', { origin: 'top' });
+    ScrollReveal().reveal('.home-img, .services-container, .portfolio-box, .contact form', { origin: 'bottom' });
+    ScrollReveal().reveal('.home-content h1, .about-img', { origin: 'left' });
+    ScrollReveal().reveal('.home-content p, .about-content', { origin: 'right' });
+}
 
+/*================================== Typed.js (guarded if lib present) ====================================*/
+if (typeof Typed !== 'undefined') {
+    const typed = new Typed('.multiple-text', {
+        strings: ['FrontEnd Developer', 'AIML Enginner', 'Blogger'],
+        typeSpeed: 100,
+        backSpeed: 100,
+        backDelay: 1000,
+        loop: true
+    });
+}
 
+/*---------------------------------- Contact Form JS (fetch + forced redirect) --------------------------*/
+/*
+  Requirements:
+  - Your <form> must have id="contact-form"
+  - The form's action must point to your Formspree endpoint (e.g. https://formspree.io/f/xnnborqj)
+  - _next hidden input can exist but we force redirect client-side to your thank-you page
+*/
+(function () {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
 
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
+        const submitBtn = form.querySelector('input[type="submit"], button[type="submit"]');
+        submitBtn && (submitBtn.disabled = true);
 
+        // status element (create if missing)
+        let status = document.getElementById('form-status');
+        if (!status) {
+            status = document.createElement('div');
+            status.id = 'form-status';
+            status.style.marginTop = '12px';
+            status.style.color = '#fff';
+            // tweak styling if you want: status.style.fontSize = '14px';
+            form.appendChild(status);
+        }
+        status.textContent = 'Sending…';
 
+        try {
+            const res = await fetch(form.action, {
+                method: (form.method || 'POST').toUpperCase(),
+                body: new FormData(form),
+            });
+
+            if (res.ok) {
+                // clear form UI if you want
+                form.reset();
+                // force redirect to your thank-you page (use your custom domain)
+                window.location.href = 'https://vibhupratap.me/thank-you.html';
+                return;
+            }
+
+            // non-OK handling
+            let data = null;
+            try { data = await res.json(); } catch (err) { /* ignore parse errors */ }
+            status.textContent = (data && data.error) ? data.error : 'Submission failed. Try again later.';
+        } catch (err) {
+            status.textContent = 'Network error — please try again.';
+        } finally {
+            submitBtn && (submitBtn.disabled = false);
+            setTimeout(() => { status.textContent = ''; }, 5000);
+        }
+    });
+})();
