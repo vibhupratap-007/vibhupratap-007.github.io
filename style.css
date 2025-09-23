@@ -89,6 +89,7 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 0%;
 }
 
 .home-img img {
@@ -176,12 +177,14 @@ span {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 4rem;
     background: var(--second-bg-color);
+    padding-top: 0rem;
+    padding-bottom: 2rem;
 }
 
 .about-img img {
-    width: 30vw;
+    width: 25vw;
 }
 
 .heading {
@@ -203,15 +206,17 @@ span {
     margin: 2rem 0 3rem;
 }
 
+
+/* service section css */
 .services h2 {
     margin-bottom: 5rem;
 }
 
-/* service section css */
+
 .services-container {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
     flex-wrap: wrap;
     gap: 2rem;
 }
@@ -245,9 +250,10 @@ span {
     margin: 1rem 0 3rem;
 }
 
-/* service section css */
+/* Latest projects css */
 .portfolio {
     background: var(--second-bg-color);
+    padding-bottom: 7rem;
 }
 
 .portfolio h2 {
@@ -323,7 +329,93 @@ span {
     color: var(--second-bg-color);
 }
 
+/* upcoming projects section css */
+.upcoming {
+    background: var(--bg-color);
+    padding-bottom: 7rem;
+}
+
+.upcoming h2 {
+    margin-bottom: 6rem;
+}
+
+.upcoming-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.upcoming-container .upcoming-box {
+    position: relative;
+    border-radius: 2rem;
+    box-shadow: 0 0 1rem var(--bg-color);
+    overflow: hidden;
+    display: flex;
+}
+
+.upcoming-box img {
+    width: 100%;
+    transition: .5s ease;
+}
+
+.upcoming-box:hover img {
+    transform: scale(1.1);
+}
+
+.upcoming-box .upcoming-layer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, .1), var(--main-color));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 0 4rem;
+    transform: translateY(100%);
+    transition: transform .5s ease;
+}
+
+.upcoming-box:hover .upcoming-layer {
+    transform: translateY(0);
+}
+
+.upcoming-layer h4 {
+    font-size: 3rem;
+}
+
+.upcoming-layer p {
+    font-size: 1.6rem;
+    margin: .3rem 0 1rem;
+}
+
+.upcoming-layer a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+    height: 5rem;
+    background: var(--text-color);
+    border-radius: 50%;
+}
+
+.upcoming-layer a i {
+    font-size: 2rem;
+    color: var(--second-bg-color);
+}
+
+
+
 /* contact section css */
+.contact {
+    background: var(--second-bg-color);   
+    padding: 4rem 2rem;    
+}
+
 .contact h2 {
     margin-bottom: 3rem;
 }
@@ -333,6 +425,9 @@ span {
     margin: 1rem auto;
     text-align: center;
     margin-bottom: 3rem;
+    background: var(--second-bg-color); 
+    padding: 2rem;                      
+    border-radius: 1rem;
 }
 
 .contact form .input-box {
@@ -347,7 +442,7 @@ span {
     padding: 1.5rem;
     font-size: 1.6rem;
     color: var(--text-color);
-    background: var(--second-bg-color);
+    background: var(--bg-color);
     border-radius: .8rem;
     margin: .7rem 0;
 }
@@ -372,7 +467,7 @@ span {
     align-items: center;
     flex-wrap: wrap;
     padding: 2rem 9%;
-    background: var(--second-bg-color);
+    background: var(--bg-color);
 }
 
 .footer-text p {

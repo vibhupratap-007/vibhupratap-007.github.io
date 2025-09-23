@@ -53,7 +53,7 @@ if (typeof ScrollReveal !== 'undefined') {
 /*================================== Typed.js (guarded if lib present) ====================================*/
 if (typeof Typed !== 'undefined') {
     const typed = new Typed('.multiple-text', {
-        strings: ['FrontEnd Developer', 'AIML Enginner', 'Blogger'],
+        strings: ['AIML Engineer', 'Full Stack Developer', 'UI/UX Designer'],
         typeSpeed: 100,
         backSpeed: 100,
         backDelay: 1000,
