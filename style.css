@@ -412,8 +412,8 @@ span {
 
 /* contact section css */
 .contact {
-    background: var(--second-bg-color);   
-    padding: 4rem 2rem;    
+    background: var(--second-bg-color);
+    padding: 4rem 2rem;
 }
 
 .contact h2 {
@@ -425,8 +425,8 @@ span {
     margin: 1rem auto;
     text-align: center;
     margin-bottom: 3rem;
-    background: var(--second-bg-color); 
-    padding: 2rem;                      
+    background: var(--second-bg-color);
+    padding: 2rem;
     border-radius: 1rem;
 }
 
@@ -602,6 +602,18 @@ span {
 @media (max-width: 450px) {
     html {
         font-size: 50%;
+    }
+
+    @media (max-width: 768px) {
+        .upcoming-container {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 617px) {
+        .upcoming-container {
+            grid-template-columns: 1fr;
+        }
     }
 
     .contact form .input-box input {
